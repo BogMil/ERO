@@ -4,7 +4,7 @@ import NavigationBar from './components/NavigationBar';
 import { BrowserRouter as Router, Link } from 'react-router-dom';
 import Route from 'react-router-dom/Route';
 import { Redirect } from 'react-router';
-import TestPage from './components/TestPage';
+import TestPage from './components/TestPage'; 
 import { Grid, Col, Row } from 'react-bootstrap';
 
 class App extends Component {
