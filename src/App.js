@@ -1,67 +1,69 @@
 import React, { Component } from 'react';
 import Login from './components/Login';
 import NavigationBar from './components/NavigationBar';
-import {BrowserRouter as Router, Link}  from 'react-router-dom';
+import { BrowserRouter as Router, Link } from 'react-router-dom';
 import Route from 'react-router-dom/Route';
 import { Redirect } from 'react-router';
-import  TestPage  from './components/TestPage';
-import SweetAlert from 'sweetalert-react';
-import 'sweetalert/dist/sweetalert.css';
-import { Grid,Col,Row } from 'react-bootstrap';
+import TestPage from './components/TestPage';
+import { Grid, Col, Row } from 'react-bootstrap';
+import MasterPage from './components/MasterPage';
 
 
 class App extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.state={
-      isAuthenticated:false,
+    this.state = {
+      isAuthenticated: false,
       show: false,
     }
 
-    this.authenticate=this.authenticate.bind(this);
-    this.logout=this.logout.bind(this);
+    this.authenticate = this.authenticate.bind(this);
+    this.logout = this.logout.bind(this);
   }
 
-  authenticate(username,password){
-    if(username==='lemi' && password==='test'){
-      this.setState((prevState)=>({isAuthenticated:!prevState.isAuthenticated}));
+  authenticate(username, password) {
+    if (username === 'lemi' && password === 'test') {
+      this.setState((prevState) => ({ isAuthenticated: !prevState.isAuthenticated }));
       return true;
     }
   }
 
-  logout(){
-    this.setState({isAuthenticated:false});
+  logout() {
+    this.setState({ isAuthenticated: false });
   }
 
   render() {
     return (
-      <div>
-        <NavigationBar />
-        <Grid>
-        <Router>
-          <div>
-            <Route path='/' exact 
-              render={() => <Login isValidUser={this.authenticate}/>} />
-                
-            <Route path='/test' exact render = {()=>{
-                if(!this.state.isAuthenticated){
-                  return (<Redirect to='/'/>);         
-                }
-                else{
-                  return(
-                  <TestPage logout={this.logout}/>
-                  );
-                }
-              }}/>
-          
+      <Router>
+        <div>
+          <Link to="/test" >Link below</Link>
+          <Grid>
+            <div>
+              <Route path="/" Component {MasterPage} >
 
-          <Link to ="/test" >Link to test page</Link>
-          </div>
-        </Router>
+                <Route path='/login' exact
+                  render={() => <Login isValidUser={this.authenticate} />} />
 
-        <h1>{this.state.isAuthenticated ? 'authenticated' : 'not authenticated'}</h1>
-      </Grid>
-      </div>
+                <Route path='/test' exact render={() => {
+                  if (!this.state.isAuthenticated) {
+                    return (<Redirect to='/' />);
+                  }
+                  else {
+                    return (
+                      <TestPage logout={this.logout} />
+                    );
+                  }
+                }} />
+
+              </Route>
+
+              <Link to="/test" >Link to test page</Link>
+            </div>
+
+            <h1>{this.state.isAuthenticated ? 'authenticated' : 'not authenticated'}</h1>
+          </Grid>
+        </div>
+      </Router>
     );
   }
 }
