@@ -5,15 +5,21 @@ import { LinkContainer } from 'react-router-bootstrap';
 import TestPage from './TestPage';
 
 class NavigationBar extends Component {
+
+  constructor(props){
+    super(props);
+
+  }
+
   render() {
+    // if(!this.props.isAuthenticated){
+    //   return (<div>You need to log in</div>);
+    // }
     return (
-      <Router>
-        <div>
-        <Link to="/test">Link test</Link>
         <Navbar inverse collapseOnSelect>
           <Navbar.Header>
             <Navbar.Brand>
-              <a href="#brand">React-Bootstrap</a>
+              {this.props.isAuthenticated && <a href="#brand">React-Bootstrap</a>}
             </Navbar.Brand>
             <Navbar.Toggle />
           </Navbar.Header>
@@ -24,9 +30,9 @@ class NavigationBar extends Component {
                   Link to test with COntainer
                 </NavItem>
               </LinkContainer >
-              <NavItem eventKey={2} href="#">
-                Link
-              </NavItem>
+              <LinkContainer to="/login">
+                <NavItem eventKey={2}>Login</NavItem>
+              </LinkContainer>
               <NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
                 <MenuItem eventKey={3.1}>Action</MenuItem>
                 <MenuItem eventKey={3.2}>Another action</MenuItem>
@@ -45,10 +51,8 @@ class NavigationBar extends Component {
             </Nav>
           </Navbar.Collapse>
       </Navbar>
-      </div>
-    </Router>
     )
   }
 }
 
-export default (NavigationBar)
+export default NavigationBar

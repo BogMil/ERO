@@ -6,8 +6,6 @@ import Route from 'react-router-dom/Route';
 import { Redirect } from 'react-router';
 import TestPage from './components/TestPage';
 import { Grid, Col, Row } from 'react-bootstrap';
-import MasterPage from './components/MasterPage';
-
 
 class App extends Component {
   constructor(props) {
@@ -23,7 +21,7 @@ class App extends Component {
 
   authenticate(username, password) {
     if (username === 'lemi' && password === 'test') {
-      this.setState((prevState) => ({ isAuthenticated: !prevState.isAuthenticated }));
+      this.setState((prevState) => ({ isAuthenticated: true }));
       return true;
     }
   }
@@ -36,29 +34,21 @@ class App extends Component {
     return (
       <Router>
         <div>
-          <Link to="/test" >Link below</Link>
+          <NavigationBar isAuthenticated={this.state.isAuthenticated}/>
           <Grid>
-            <div>
-              <Route path="/" Component {MasterPage} >
+              <Route path='/login' exact
+                render={() => <Login isValidUser={this.authenticate} />} />
 
-                <Route path='/login' exact
-                  render={() => <Login isValidUser={this.authenticate} />} />
-
-                <Route path='/test' exact render={() => {
-                  if (!this.state.isAuthenticated) {
-                    return (<Redirect to='/' />);
-                  }
-                  else {
-                    return (
-                      <TestPage logout={this.logout} />
-                    );
-                  }
-                }} />
-
-              </Route>
-
-              <Link to="/test" >Link to test page</Link>
-            </div>
+              <Route path='/test' exact render={() => {
+                if (!this.state.isAuthenticated) {
+                  return (<Redirect to='/login' />);
+                }
+                else {
+                  return (
+                    <TestPage logout={this.logout} />
+                  );
+                }
+              }} />
 
             <h1>{this.state.isAuthenticated ? 'authenticated' : 'not authenticated'}</h1>
           </Grid>
