@@ -30,11 +30,18 @@ class NavigationBar extends Component {
                   Link to test with COntainer
                 </NavItem>
               </LinkContainer >
+              <LinkContainer to = '/table'>
+                <NavItem eventKey={1}>
+                  table
+                </NavItem>
+              </LinkContainer >
               <LinkContainer to="/login">
                 <NavItem eventKey={2}>Login</NavItem>
               </LinkContainer>
               <NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
-                <MenuItem eventKey={3.1}>Action</MenuItem>
+                <LinkContainer to="/private">
+                  <NavItem eventKey={3.1}>Private</NavItem>
+                </LinkContainer>
                 <MenuItem eventKey={3.2}>Another action</MenuItem>
                 <MenuItem eventKey={3.3}>Something else here</MenuItem>
                 <MenuItem divider />

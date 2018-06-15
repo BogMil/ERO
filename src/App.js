@@ -4,8 +4,21 @@ import NavigationBar from './components/NavigationBar';
 import { BrowserRouter as Router, Link } from 'react-router-dom';
 import Route from 'react-router-dom/Route';
 import { Redirect } from 'react-router';
-import TestPage from './components/TestPage'; 
+import TestPage from './components/TestPage';
+import Table from './components/Table';
+import PrivatePage from './components/PrivatePage';
 import { Grid, Col, Row } from 'react-bootstrap';
+
+
+const PrivateRoute = ({ component: Component, ...rest }) => {
+  return (
+    <Route {...rest} render={(props) => (
+      rest.isAuthenticated === true
+        ? <Component {...props} />
+        : <Redirect to="/login" />
+    )} />
+  )
+}
 
 class App extends Component {
   constructor(props) {
@@ -21,7 +34,7 @@ class App extends Component {
 
   authenticate(username, password) {
     if (username === 'lemi' && password === 'test') {
-      this.setState((prevState) => ({ isAuthenticated: true }));
+      this.setState({ isAuthenticated: true });
       return true;
     }
   }
@@ -34,21 +47,23 @@ class App extends Component {
     return (
       <Router>
         <div>
-          <NavigationBar isAuthenticated={this.state.isAuthenticated}/>
+          <NavigationBar isAuthenticated={this.state.isAuthenticated} />
           <Grid>
-              <Route path='/login' exact
-                render={() => <Login isValidUser={this.authenticate} />} />
 
-              <Route path='/test' exact render={() => {
-                if (!this.state.isAuthenticated) {
-                  return (<Redirect to='/login' />);
-                }
-                else {
-                  return (
-                    <TestPage logout={this.logout} />
-                  );
-                }
-              }} />
+            <Route path='/table' exact  component={Table}/>
+
+            <Route path='/login' exact
+              render={() => <Login isValidUser={this.authenticate} />} />
+
+            <PrivateRoute
+              path="/private"
+              component={PrivatePage}
+              isAuthenticated={this.state.isAuthenticated} />
+
+            <PrivateRoute
+              path="/test"
+              component={TestPage}
+              isAuthenticated={this.state.isAuthenticated} />
 
             <h1>{this.state.isAuthenticated ? 'authenticated' : 'not authenticated'}</h1>
           </Grid>
