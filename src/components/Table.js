@@ -1,15 +1,19 @@
 import React, { Component } from 'react'
 
+function RenderItem (props) {
+  return <div >{props.data}</div>
+}
+
 function RenderData (props) {
 
-  const list = props.data.map((row)=>{
-    return(
-    <div key={row.id}>{row.title}</div>
-    )
-  })
+  const data=props.data;
+  console.log( (data))
+  const list = data.map((row)=>
+      <RenderItem key={row.id} data={row.title}/>
+  );
 
   return(
-    <div>{list}</div>    
+    <div >{list}</div>    
   );
 }
 
@@ -19,7 +23,7 @@ export default class Table extends Component {
     super(props);
 
     this.state = {
-      data: ['asd']
+      data: []
     }
   }
 
@@ -28,20 +32,14 @@ export default class Table extends Component {
   fetch('https://jsonplaceholder.typicode.com/posts')
   .then(response => response.json())
   .then(json => this.setState({data : json}));
-
-
-
   }
 
   render() {
 
-    let rows=this.state.data;
-
+    const rows=this.state.data;
+ 
     return (
-      <div>
-        <h1>ses</h1>
         <RenderData data={rows}/>
-      </div>
     )
   }
 }
