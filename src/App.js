@@ -8,6 +8,7 @@ import TestPage from './components/TestPage';
 import Table from './components/Table';
 import PrivatePage from './components/PrivatePage';
 import { Grid, Col, Row } from 'react-bootstrap';
+import JqWidgetGrid from './components/JqWidgetGrid';
 
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
@@ -51,6 +52,7 @@ class App extends Component {
           <Grid>
 
             <Route path='/table' exact  component={Table}/>
+            <Route path='/grid' exact  component={JqWidgetGrid}/>            
 
             <Route path='/login' exact
               render={() => <Login isValidUser={this.authenticate} />} />
